@@ -18,11 +18,38 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "StackQuizz - Real-time Quiz Platform",
+  title: "Roeurm Dara - Frontend Engineer",
   description:
-    "Engage with organizer real-time StackQuizz. Compete in live quizzes and climb the leaderboard!",
+    "Portfolio of Roeurm Dara, a frontend engineer specializing in building performant, accessible, and visually engaging web applications.",
   generator: "v0.dev",
+
+  openGraph: {
+    title: "Roeurm Dara - Frontend Engineer",
+    description:
+      "Portfolio of Roeurm Dara, a frontend engineer specializing in building performant, accessible, and visually engaging web applications.",
+    url: "https://me-delta-tawny.vercel.app/",
+    siteName: "Roeurm Dara Portfolio",
+    images: [
+      {
+        url: "me.jpg", // put image in /public
+        width: 1200,
+        height: 630,
+        alt: "Roeurm Dara Portfolio Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Roeurm Dara - Frontend Engineer",
+    description:
+      "Portfolio of Roeurm Dara, frontend engineer building modern web experiences.",
+    images: ["https://your-domain.com/og-image.png"],
+  },
 };
+
 
 export default function RootLayout({
   children,
