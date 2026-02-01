@@ -82,38 +82,68 @@ export default function VolunteerExperience() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [pause, setPause] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isInteracting, setIsInteracting] = useState(false);
 
   const cardWidth = 360; // approx card width + gap
 
-  // Auto-scroll
+  // Sync active index with manual scroll
   useEffect(() => {
-    if (pause) return;
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    let scrollTimeout: NodeJS.Timeout;
+    
+    const handleScroll = () => {
+      // Clear existing timeout
+      clearTimeout(scrollTimeout);
+      
+      // Set interacting flag
+      setIsInteracting(true);
+      
+      // Debounce to update active index after scroll ends
+      scrollTimeout = setTimeout(() => {
+        const scrollLeft = slider.scrollLeft;
+        const index = Math.round(scrollLeft / cardWidth);
+        setActiveIndex(index);
+        setIsInteracting(false);
+      }, 150);
+    };
+
+    slider.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      slider.removeEventListener("scroll", handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [cardWidth]);
+
+  // Auto-scroll - pauses when user is interacting
+  useEffect(() => {
+    if (pause || isInteracting) return;
 
     const interval = setInterval(() => {
       if (!sliderRef.current) return;
 
-      sliderRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
-
-      const nextIndex =
-        activeIndex + 1 >= volunteers.length ? 0 : activeIndex + 1;
+      const nextIndex = (activeIndex + 1) % volunteers.length;
+      sliderRef.current.scrollTo({ left: cardWidth * nextIndex, behavior: "smooth" });
       setActiveIndex(nextIndex);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [pause, activeIndex]);
+  }, [pause, activeIndex, cardWidth, isInteracting]);
 
   // Navigation buttons
   const scrollLeft = () => {
     if (!sliderRef.current) return;
-    sliderRef.current.scrollBy({ left: -cardWidth, behavior: "smooth" });
-    setActiveIndex(
-      activeIndex - 1 < 0 ? volunteers.length - 1 : activeIndex - 1,
-    );
+    const newIndex = activeIndex - 1 < 0 ? volunteers.length - 1 : activeIndex - 1;
+    sliderRef.current.scrollTo({ left: cardWidth * newIndex, behavior: "smooth" });
+    setActiveIndex(newIndex);
   };
+
   const scrollRight = () => {
     if (!sliderRef.current) return;
-    sliderRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
-    setActiveIndex((activeIndex + 1) % volunteers.length);
+    const newIndex = (activeIndex + 1) % volunteers.length;
+    sliderRef.current.scrollTo({ left: cardWidth * newIndex, behavior: "smooth" });
+    setActiveIndex(newIndex);
   };
 
   // Click dot
@@ -142,7 +172,10 @@ export default function VolunteerExperience() {
             ref={sliderRef}
             onMouseEnter={() => setPause(true)}
             onMouseLeave={() => setPause(false)}
-            className="flex gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 scrollbar-hide"
+            onTouchStart={() => setPause(true)}
+            onTouchEnd={() => setPause(false)}
+            className="flex gap-8 overflow-x-scroll scroll-smooth snap-x snap-mandatory pb-4 scrollbar-hide touch-pan-x"
+            style={{ WebkitOverflowScrolling: 'touch' }}
           >
             {volunteers.map((v, i) => (
               <div
@@ -154,6 +187,7 @@ export default function VolunteerExperience() {
                     src={v.image}
                     alt={v.role}
                     className="w-full h-full object-cover hover:scale-105 transition duration-700"
+                    draggable="false"
                   />
                 </div>
 
