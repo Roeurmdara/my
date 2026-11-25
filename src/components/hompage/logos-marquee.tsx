@@ -1,56 +1,69 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Image from "next/image"
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const tools = [
-  { name: "Next.js", logo: "https://cdn.worldvectorlogo.com/logos/next-js.svg" },
-  { name: "TypeScript", logo: "https://cdn.worldvectorlogo.com/logos/typescript.svg" },
-  { name: "Vercel", logo: "https://cdn.worldvectorlogo.com/logos/vercel.svg" },
-  { name: "Figma", logo: "https://cdn.worldvectorlogo.com/logos/figma-icon-one-color.svg" },
-  { name: "Notion", logo: "https://cdn.worldvectorlogo.com/logos/notion-2.svg" },
-  { name: "GitHub", logo: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg" },
-]
+  { name: "REACT", logo: "/React.png" },
+  { name: "TYPESCRIPT", logo: "/typescript.webp" },
+  { name: "POSTGRESQL", logo: "/postgre.png" },
+  { name: "NEXT.JS", logo: "https://cdn.worldvectorlogo.com/logos/next-js.svg" },
+  { name: "SPRING BOOT", logo: "https://cdn.worldvectorlogo.com/logos/spring-3.svg" },
+  { name: "JAVA", logo: "https://cdn.worldvectorlogo.com/logos/java-4.svg" },
+  { name: "FASTAPI", logo: "https://cdn.worldvectorlogo.com/logos/fastapi-1.svg" },
+  { name: "DJANGO", logo: "https://cdn.worldvectorlogo.com/logos/django.svg" },
+  { name: "TAILWIND CSS", logo: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg" },
+  { name: "VERCEL", logo: "https://cdn.worldvectorlogo.com/logos/vercel.svg" },
+  { name: "GITHUB", logo: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg" },
+];
 
-function Row({ reverse = false }: { reverse?: boolean }) {
-  const items = [...tools, ...tools]
+function MarqueeRow() {
+  const items = [...tools, ...tools, ...tools];
   return (
     <motion.div
-      initial={{ x: reverse ? 0 : 0 }}
-      animate={{ x: reverse ? "-50%" : "-50%" }}
-      transition={{ duration: 20, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
-      className="flex shrink-0 min-w-[200%] gap-6"
+      initial={{ x: 0 }}
+      animate={{ x: "-33.333%" }}
+      transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+      className="flex shrink-0 min-w-[300%] gap-4 sm:gap-6"
       aria-hidden
     >
       {items.map((t, i) => (
         <div
           key={`${t.name}-${i}`}
-          className="inline-flex items-center gap-3 rounded-lg border bg-background/70 px-3 py-2 text-sm text-muted-foreground backdrop-blur"
+          className="inline-flex items-center gap-2.5 border-2 border-[#090909] bg-white px-3.5 py-1.5 font-mono text-xs font-black uppercase tracking-wider text-[#090909] shadow-[3px_3px_0px_#090909]"
         >
-          <span className="relative h-6 w-6 overflow-hidden rounded">
+          <span className="relative h-5 w-5 shrink-0 overflow-hidden flex items-center justify-center">
             <Image
               src={t.logo || "/placeholder.svg"}
               alt={`${t.name} logo`}
               fill
-              sizes="24px"
+              sizes="20px"
               className="object-contain"
             />
           </span>
-          {t.name}
+          <span>{t.name}</span>
         </div>
       ))}
     </motion.div>
-  )
+  );
 }
 
 export default function LogosMarquee() {
   return (
-    <section aria-label="Tools and platforms" className="relative border-t py-8">
-      <div className="mx-auto max-w-6xl overflow-hidden px-4 md:px-6">
-        <div className="relative">
-          <Row />
+    <section aria-label="Tools and platforms">
+      <div className="border-[3px] border-[#090909] bg-[#C5F451] p-3 sm:p-4 shadow-[6px_6px_0px_#090909] overflow-hidden">
+        <div className="flex items-center justify-between pb-2 mb-2 border-b-2 border-[#090909]">
+          <span className="font-mono text-xs font-black uppercase tracking-widest text-[#090909]">
+            {"//"} TECH STACK &amp; DEVELOPER TOOLBOX
+          </span>
+          <span className="font-mono text-[11px] font-bold uppercase text-[#090909] hidden sm:inline">
+            FULLSTACK CAPABLE
+          </span>
+        </div>
+        <div className="relative overflow-hidden py-1">
+          <MarqueeRow />
         </div>
       </div>
     </section>
-  )
+  );
 }

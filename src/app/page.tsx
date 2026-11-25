@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Hero from "@/components/hompage/hero";
 import Skills from "@/components/hompage/skills";
@@ -14,7 +14,7 @@ import ContactPage from "@/components/hompage/contact";
 
 export default function HomePage() {
   return (
-    <main className="py-12">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
       <Hero />
       <LogosMarquee />
       <Me />
@@ -25,8 +25,8 @@ export default function HomePage() {
       <Experience />
       <ContactPage />
       <Text
-        text="Learning, growing, and enjoying the journey."
-        className="font-display text-center text-4xl font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-6xl md:leading-[5rem] pointer-events-auto"
+        text="LEARNING • GROWING • BUILDING RETRO EDITORIAL WEB EXPERIENCES"
+        className="font-mono text-center text-xl sm:text-2xl font-black uppercase tracking-widest text-[#090909] pointer-events-auto"
       />
       <SmoothCursor />
     </main>

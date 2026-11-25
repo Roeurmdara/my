@@ -1,106 +1,154 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react"; // ArrowRight removed
 import Link from "next/link";
 import Image from "next/image";
-import { ScrollReveal } from "../ScrollReveal";
+import { Download, ArrowUpRight, MapPin } from "lucide-react";
 
-const MotionImage = motion(Image);
+const stats = [
+  { label: "EXPERIENCE", value: "2+ YEARS", bg: "bg-[#C5F451]" },
+  { label: "CORE PROJECTS", value: "6+ SHIPPED", bg: "bg-[#FF789D]" },
+  { label: "CREDENTIALS", value: "10+ CERTS", bg: "bg-[#7950F5]", text: "text-white" },
+  { label: "RUPP GPA", value: "3.68 / 4.0", bg: "bg-white" },
+];
 
 export default function Hero() {
   return (
-    <section id="home" className="relative isolate overflow-hidden" aria-label="Hero">
-      <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 pb-20 pt-16 md:grid-cols-2 md:gap-10 md:px-6 md:pb-28 md:pt-24">
-        
-        {/* Left Column */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="relative z-10"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-            Available for freelance
-          </div>
+    <section id="home" className="scroll-mt-24" aria-label="Hero">
+      <div className="border-[3px] border-[#090909] bg-white p-6 sm:p-8 md:p-12 shadow-[8px_8px_0px_#090909] neo-grid-pattern relative">
+        <div className="grid items-center gap-10 lg:grid-cols-12">
+          
+          {/* Left Column: Intro & Headline (7 cols) */}
+          <div className="lg:col-span-7 flex flex-col justify-center space-y-5">
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-2 border-2 border-[#090909] bg-[#C5F451] px-3 py-1 font-mono text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_#090909]">
+                <span className="h-2 w-2 rounded-full bg-[#090909] animate-pulse" />
+                AVAILABLE FOR WORK
+              </span>
 
-          <ScrollReveal
-            size="xl"
-            align="left"
-            variant="default"
-            enableBlur
-            baseOpacity={0.15}
-            staggerDelay={0.08}
-            threshold={0.3}
-            containerClassName="mt-4"
-            textClassName="font-bold tracking-tight"
-          >
-            Hi! I&apos;m Dara .
-          </ScrollReveal>
+              <span className="inline-flex items-center gap-1.5 border-2 border-[#090909] bg-white px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider shadow-[2px_2px_0px_#090909]">
+                <MapPin className="h-3.5 w-3.5 text-[#090909]" />
+                PHNOM PENH, KH
+              </span>
+            </div>
 
-          <ScrollReveal
-            size="md"
-            align="left"
-            variant="muted"
-            enableBlur
-            baseOpacity={0.1}
-            staggerDelay={0.04}
-            threshold={0.4}
-            containerClassName="mt-4"
-          >
-            Frontend engineer focused on performant interfaces, creative motion, and accessible design. Currently exploring React Server Components, streaming UIs, and 3D on the web.
-          </ScrollReveal>
+            {/* Headline */}
+            <div>
+              <h1 className="font-sans font-black text-4xl sm:text-6xl lg:text-7xl tracking-tighter uppercase leading-[0.95] text-[#090909]">
+                HI, I&apos;M <br />
+                <span className="inline-block bg-[#FF789D] border-[3px] border-[#090909] px-3 py-1 mt-1 shadow-[4px_4px_0px_#090909]">
+                  ROEURM DARA
+                </span>
+              </h1>
+              <p className="mt-4 font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-[#555555]">
+                {"//"} FULLSTACK DEVELOPER &amp; CREATIVE ENGINEER
+              </p>
+            </div>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild className="group">
-              <Link href="#projects">
-                View Projects
+            {/* Description */}
+            <p className="text-sm sm:text-base text-[#090909] leading-relaxed max-w-xl font-medium border-l-[3px] border-[#090909] pl-4 py-1 bg-[#F5F3ED]/70">
+              Fullstack developer focused on robust architectures, performant interfaces, fluid motion, and accessible web systems. Proficient across Next.js, React, Node.js, Spring Boot, and database engineering.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <Link
+                href="#projects"
+                className="inline-flex items-center gap-2 border-[3px] border-[#090909] bg-[#7950F5] text-white font-mono font-bold text-xs uppercase px-5 py-3 shadow-[4px_4px_0px_#090909] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#090909] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#090909] transition-all"
+              >
+                <span>VIEW PROJECTS</span>
+                <ArrowUpRight className="h-4 w-4 text-white" />
               </Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <a href="/Cv.png" download>
-                <Download className="mr-2 h-4 w-4" />
-                Download Resume
+
+              <a
+                href="/Cv.png"
+                download="Roeurm-Dara-CV.png"
+                className="inline-flex items-center gap-2 border-[3px] border-[#090909] bg-white text-[#090909] font-mono font-bold text-xs uppercase px-5 py-3 shadow-[4px_4px_0px_#090909] hover:bg-[#C5F451] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#090909] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#090909] transition-all"
+              >
+                <Download className="h-4 w-4 text-[#090909]" />
+                <span>DOWNLOAD CV</span>
               </a>
-            </Button>
+            </div>
+
+            {/* Tech Badges */}
+            <div className="pt-3 border-t-2 border-[#090909] flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[11px] font-black uppercase text-[#555555] mr-1">
+                STACK:
+              </span>
+              {["NEXT.JS", "SPRING BOOT", "FASTAPI", "DJANGO", "TYPESCRIPT", "TAILWIND", "JAVA", "SUPABASE"].map((tag, i) => (
+                <span
+                  key={tag}
+                  className={`border-2 border-[#090909] px-2.5 py-0.5 font-mono text-[11px] font-bold shadow-[2px_2px_0px_#090909] ${
+                    i === 0 ? "bg-[#C5F451]" : i === 1 ? "bg-[#FF789D]" : i === 2 ? "bg-[#C5F451]" : i === 3 ? "bg-[#FF789D]" : i === 4 ? "bg-[#7950F5] text-white" : "bg-white text-[#090909]"
+                  }`}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-6 flex gap-2 text-xs text-muted-foreground">
-            <span className="rounded-full bg-emerald-500/10 px-2 py-1">Next.js</span>
-            <span className="rounded-full bg-rose-500/10 px-2 py-1">Framer Motion</span>
-            <span className="rounded-full bg-amber-500/10 px-2 py-1">TypeScript</span>
-            <span className="rounded-full bg-blue-500/40 border-blue-500/40 border text-blue-500/100 px-2 py-1">Native Khmer</span>
-            <span className="rounded-full bg-violet-500/40 border-violet-500/40 border text-violet-500/100 px-2 py-1">Advanced English</span>
-          </div>
-        </motion.div>
+          {/* Right Column: Layered Visual Graphic (5 cols) */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center">
+            <div className="relative w-full max-w-sm">
+              
+              {/* Offset Decorative Backing Card */}
+              <div className="absolute -top-3 -right-3 w-full h-full bg-[#FF789D] border-[3px] border-[#090909] shadow-[8px_8px_0px_#090909]" />
+              
+              {/* Primary Image Container */}
+              <div className="relative aspect-square w-full border-[3px] border-[#090909] bg-white overflow-hidden z-10">
+                <Image
+                  src="/me.jpg"
+                  alt="Roeurm Dara"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 100vw, 380px"
+                  className="object-cover"
+                />
+                
+                {/* Floating Bottom Label */}
+                <div className="absolute bottom-3 left-3 right-3 border-2 border-[#090909] bg-white p-2.5 shadow-[3px_3px_0px_#090909] flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#090909] animate-pulse" />
+                    <span className="font-mono font-black text-xs uppercase text-[#090909]">
+                      DARA // FULLSTACK DEV
+                    </span>
+                  </div>
+                  <span className="font-mono text-[10px] font-bold text-[#555555] uppercase">
+                    RUPP &bull; 2026
+                  </span>
+                </div>
+              </div>
 
-        {/* Right Column */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="relative z-10"
-        >
-          <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-950">
-          <MotionImage
-  src="/me.jpg"
-  alt="Abstract portrait"
-  fill
-  className="absolute inset-0 object-cover"
-  initial={{ scale: 1.05 }}
-  animate={{ scale: 1 }}
-  transition={{ duration: 1.2 }}
-/>
-            <motion.div
-              className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(250,250,250,0.0),rgba(0,0,0,0.3))]"
-              animate={{ opacity: [0.4, 0.25, 0.4] }}
-              transition={{ duration: 6, repeat: Infinity }}
-            />
-          </div>
-        </motion.div>
+              {/* Floating Geometric Stickers */}
+              <div className="absolute -bottom-4 -left-4 z-20 border-2 border-[#090909] bg-[#C5F451] px-3 py-1 font-mono font-black text-xs uppercase shadow-[3px_3px_0px_#090909] -rotate-3 text-[#090909]">
+                FULLSTACK DEV
+              </div>
+              <div className="absolute -top-4 -left-4 z-20 border-2 border-[#090909] bg-[#7950F5] text-white px-3 py-1 font-mono font-black text-xs uppercase shadow-[3px_3px_0px_#090909] rotate-3">
+                100% PASSION
+              </div>
+            </div>
 
+            {/* Metrics Bar below image */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full max-w-sm mt-8">
+              {stats.map((s) => (
+                <div
+                  key={s.label}
+                  className={`border-2 border-[#090909] p-2.5 text-center shadow-[3px_3px_0px_#090909] ${s.bg} ${s.text || "text-[#090909]"}`}
+                >
+                  <span className="font-mono font-black text-xs sm:text-sm block">
+                    {s.value}
+                  </span>
+                  <span className="font-mono text-[9px] font-bold uppercase tracking-wider opacity-80 block mt-0.5">
+                    {s.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+          </div>
+
+        </div>
       </div>
     </section>
   );

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef } from "react";
+import Image from "next/image";
+import { Award, ChevronLeft, ChevronRight, Building2 } from "lucide-react";
 
 type Cert = {
   id: number;
@@ -23,8 +24,9 @@ const certs: Cert[] = [
     date: "2025",
     credentialId: "ABC-123-UX",
     verifyUrl: "#",
-    image: "flutter.jpg",
-    description: "Comprehensive program covering AI app development, UX design principles, and prototyping using FlutterFlow.",
+    image: "/flutter.jpg",
+    description:
+      "Comprehensive program covering AI app development, UX design principles, and prototyping using FlutterFlow.",
     tags: ["UX Design", "Prototyping", "FlutterFlow", "AI Integration"],
   },
   {
@@ -34,8 +36,9 @@ const certs: Cert[] = [
     date: "2024",
     credentialId: "AWS-CLF-001",
     verifyUrl: "#",
-    image: "photo_2026-01-30_17-03-46.jpg",
-    description: "Certification focusing on data science concepts, tools, and applications in the ASEAN region.",
+    image: "/photo_2026-01-30_17-03-46.jpg",
+    description:
+      "Certification focusing on data science concepts, tools, and applications in the ASEAN region.",
     tags: ["Cloud Computing", "Data Science", "Security"],
   },
   {
@@ -45,42 +48,43 @@ const certs: Cert[] = [
     date: "2025",
     credentialId: "AWS-CSA-002",
     verifyUrl: "#",
-    image: "Ayoe.jpg",
-    description: "Advanced certification demonstrating knowledge of climate and environment policy in ASEAN countries.",
+    image: "/Ayoe.jpg",
+    description:
+      "Advanced certification demonstrating knowledge of climate and environment policy in ASEAN countries.",
     tags: ["Climate Policy", "Environment", "ASEAN", "Sustainability"],
   },
   {
     id: 4,
     title: "កីឡាជាតិ",
-    issuer: "Rupp",
+    issuer: "RUPP",
     date: "2025",
     credentialId: "ABC-123-DA",
     verifyUrl: "#",
-    image: "phonon.jpg",
-    description: "លិខិតថ្លែង សម្រាប់ការប្រកួតកីឡាជាតិឆ្នាំ2025។",
-    tags: ["Sports", "National Games", "Rupp", "Athletics"],
+    image: "/phonon.jpg",
+    description: "លិខិតថ្លែងអំណរគុណ សម្រាប់ការប្រកួតកីឡាជាតិឆ្នាំ2025។",
+    tags: ["Sports", "National Games", "RUPP", "Athletics"],
   },
   {
     id: 5,
-    title: "Spring InternShip Program ",
+    title: "Spring InternShip Program",
     issuer: "Spring Education",
     date: "2024",
     credentialId: "ABC-123-PM",
     verifyUrl: "#",
-    image: "presentation.jpg",
+    image: "/presentation.jpg",
     description: "Internship program focused on project management principles, tools, and best practices.",
-    tags: ["Project Management", "Internship", "Spring Education","Top 2 menber"],
+    tags: ["Project Management", "Internship", "Top 2 Member"],
   },
   {
     id: 6,
-    title: "Deploma",
+    title: "Diploma",
     issuer: "Ministry of Education Youth and Sport",
     date: "2023",
     credentialId: "META-FE-001",
     verifyUrl: "#",
-    image: "b.jpg",
-    description: "Grede B Deploma from Ministry of Education Youth and Sport in Cambodia.",
-    tags: ["Deploma", "Education", "Ministry of Education" ],
+    image: "/B.jpg",
+    description: "Grade B Diploma from Ministry of Education Youth and Sport in Cambodia.",
+    tags: ["Diploma", "Education", "Ministry Honors"],
   },
   {
     id: 7,
@@ -89,316 +93,157 @@ const certs: Cert[] = [
     date: "2024",
     credentialId: "AZ-900",
     verifyUrl: "#",
-    image: "AYO.jpg",
-    description: "Local youth ambassador certification from ASEAN Youth Organization.",
+    image: "/AYO.jpg",
+    description:
+      "Local youth ambassador certification from ASEAN Youth Organization.",
     tags: ["Youth Ambassador", "ASEAN", "Leadership", "Community Service"],
   },
-   {
+  {
     id: 8,
-    title: "Startup Camp ",
+    title: "Startup Camp",
     issuer: "NICC",
     date: "2024",
     credentialId: "AZ-900",
     verifyUrl: "#",
-    image: "startup.jpg",
-    description: "Certification in startup development, business modeling, and entrepreneurial skills.",
-    tags: ["Startup", "Entrepreneurship", "Business Modeling", "Innovation"],
+    image: "/startup.jpg",
+    description:
+      "Certification in startup development, business modeling, and entrepreneurial skills.",
+    tags: ["Startup", "Entrepreneurship", "Innovation"],
   },
-   {
+  {
     id: 9,
     title: "Engineering Day",
-    issuer: "Rupp",
+    issuer: "RUPP",
     date: "2024",
     credentialId: "AZ-900",
     verifyUrl: "#",
-    image: "rupp.jpg",
-    description: "Certification in engineering principles and practices at Rupp University.",
-    tags: ["Engineering", "Rupp", "Principles", "Top 3 project"],
+    image: "/rupp.jpg",
+    description:
+      "Certification in engineering principles and practices at RUPP University.",
+    tags: ["Engineering", "RUPP", "Top 3 Project"],
   },
-   {
+  {
     id: 10,
     title: "Full Stack Web Development",
     issuer: "ISARD",
     date: "2024",
     credentialId: "AZ-900",
     verifyUrl: "#",
-    image: "fullstarck.jpg",
-    description: "Foundational certification covering full stack web development concepts, tools, and best practices.",
-    tags: ["Web Development", "Full Stack", "Programming", "ISARD"],
+    image: "/fullstarck.jpg",
+    description:
+      "Foundational certification covering full stack web development concepts, tools, and best practices.",
+    tags: ["Web Development", "Full Stack", "ISARD"],
   },
 ];
 
-// Create infinite loop by duplicating the entire certs array 3 times
-const infiniteCerts = [...certs, ...certs, ...certs];
-
-// Group the infinite certs into slides of 3
-const groupedCerts: Cert[][] = [];
-for (let i = 0; i < infiniteCerts.length; i += 3) {
-  groupedCerts.push(infiniteCerts.slice(i, i + 3));
-}
-
-// Calculate how many slides in one complete set
-const slidesPerSet = Math.ceil(certs.length / 3);
-
 export default function Certifications() {
-  const [currentIndex, setCurrentIndex] = useState(slidesPerSet); // Start at middle set
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [dragOffset, setDragOffset] = useState(0);
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const resetAutoPlay = () => {
-    if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current);
-    }
-    autoPlayRef.current = setInterval(() => {
-      handleNext();
-    }, 5000);
-  };
-
-  const handleNext = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => prev + 1);
-  };
-
-  const handlePrev = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => prev - 1);
-  };
-
-  // Handle infinite loop logic after transition
-  useEffect(() => {
-    if (!isTransitioning) return;
-
-    const timer = setTimeout(() => {
-      setIsTransitioning(false);
-
-      // Reset to middle set when reaching boundaries (without transition)
-      if (currentIndex >= slidesPerSet * 2) {
-        setCurrentIndex(slidesPerSet);
-      } else if (currentIndex < slidesPerSet) {
-        setCurrentIndex(slidesPerSet * 2 - 1);
-      }
-    }, 600);
-
-    return () => clearTimeout(timer);
-  }, [currentIndex, isTransitioning]);
-
-  useEffect(() => {
-    resetAutoPlay();
-    return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        handlePrev();
-        resetAutoPlay();
-      }
-      if (e.key === "ArrowRight") {
-        handleNext();
-        resetAutoPlay();
-      }
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [isTransitioning]);
-
-  const handleDragStart = (clientX: number) => {
-    if (isTransitioning) return;
-    setIsDragging(true);
-    setStartX(clientX);
-    setDragOffset(0);
-    if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current);
+  const scroll = (direction: "left" | "right") => {
+    if (sliderRef.current) {
+      const scrollAmount = direction === "left" ? -360 : 360;
+      sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
-
-  const handleDragMove = (clientX: number) => {
-    if (!isDragging) return;
-    const diff = clientX - startX;
-    const resistance = 0.5;
-    setDragOffset(diff * resistance);
-  };
-
-  const handleDragEnd = () => {
-    if (!isDragging) return;
-    setIsDragging(false);
-
-    const threshold = 80;
-    const velocity = dragOffset;
-
-    if (velocity > threshold) {
-      handlePrev();
-    } else if (velocity < -threshold) {
-      handleNext();
-    }
-
-    setDragOffset(0);
-    resetAutoPlay();
-  };
-
-  // Get display index for dots (loop within original range)
-  const getDisplayIndex = () => {
-    return currentIndex % slidesPerSet;
-  };
-
-  const goToSlide = (index: number) => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    
-    // Calculate the target index in the middle set
-    const targetIndex = slidesPerSet + index;
-    setCurrentIndex(targetIndex);
-    resetAutoPlay();
-  };
-
-  if (!isClient) return null;
 
   return (
-    <section className="py-32 px-6 bg-white dark:bg-black">
-      <div className="max-w-6xl mx-auto">
-        {/* Title */}
-        <div className="mb-20">
-          <h2 className="text-3xl font-semibold text-black dark:text-white">
-            Certifications
+    <section id="certifications" className="scroll-mt-24" aria-label="Certifications">
+      <div className="border-[3px] border-[#090909] bg-white p-6 sm:p-8 md:p-12 shadow-[8px_8px_0px_#090909] relative neo-grid-pattern">
+        
+        {/* Section Header */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b-[3px] border-[#090909]">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 border-2 border-[#090909] bg-[#C5F451] px-3 py-1 font-mono text-xs font-black uppercase text-[#090909] shadow-[2px_2px_0px_#090909]">
+              <Award className="h-3.5 w-3.5 text-[#090909]" />
+              {"//"} ACCREDITATIONS &amp; HONORS
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold uppercase text-[#555555] mr-2">
+              {certs.length} CREDENTIALS
+            </span>
+            <button
+              onClick={() => scroll("left")}
+              className="border-2 border-[#090909] bg-white p-2 shadow-[2px_2px_0px_#090909] hover:bg-[#C5F451] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="border-2 border-[#090909] bg-white p-2 shadow-[2px_2px_0px_#090909] hover:bg-[#C5F451] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-8 mb-8">
+          <h2 className="font-sans text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#090909]">
+            CERTIFICATIONS &amp; ACHIEVEMENTS
           </h2>
-          <p className="text-gray-500 dark:text-gray-300 font-light">
-            Professional credentials and achievements
+          <p className="mt-2 text-sm text-[#555555] font-medium leading-relaxed max-w-2xl">
+            Continuous development through hackathons, international workshops, engineering showcases, and specialized training programs.
           </p>
         </div>
 
-        {/* Slider Container */}
-        <div className="relative overflow-hidden">
-          {/* Cards Slider */}
-          <div
-            ref={sliderRef}
-            className={`flex ${
-              isDragging ? "" : isTransitioning ? "transition-transform duration-600 ease-out" : ""
-            } cursor-grab active:cursor-grabbing select-none`}
-            style={{
-              transform: `translateX(calc(-${currentIndex * 100}% + ${dragOffset}px))`,
-            }}
-            onMouseDown={(e) => {
-              e.preventDefault();
-              handleDragStart(e.clientX);
-            }}
-            onMouseMove={(e) => handleDragMove(e.clientX)}
-            onMouseUp={handleDragEnd}
-            onMouseLeave={handleDragEnd}
-            onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
-            onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
-            onTouchEnd={handleDragEnd}
-          >
-            {groupedCerts.map((slideGroup, slideIdx) => (
-              <div key={slideIdx} className="w-full flex-shrink-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2">
-                  {slideGroup.map((cert, certIdx) => (
-                    <div key={`${slideIdx}-${cert.id}-${certIdx}`} className="group">
-                      {/* Image */}
-                      <div className="overflow-hidden mb-6 aspect-[4/3] bg-gray-200 dark:bg-gray-800 rounded-lg">
-                        <img
-                          src={cert.image || "/placeholder.svg"}
-                          alt={cert.title}
-                          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
-                          draggable="false"
-                        />
-                      </div>
-
-                      {/* Content */}
-                      <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
-                        {cert.issuer} · {cert.date}
-                      </p>
-                      <h3 className="text-2xl font-light text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-gray-300 transition mb-3">
-                        {cert.title}
-                      </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 font-light line-clamp-2 mb-4">
-                        {cert.description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {cert.tags.slice(0, 3).map((tag, tagIdx) => (
-                          <span
-                            key={tagIdx}
-                            className="text-xs text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-700 px-3 py-1 rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Verify Link */}
-                      {cert.verifyUrl && (
-                        <a
-                          href={cert.verifyUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition"
-                          onMouseDown={(e) => e.stopPropagation()}
-                        >
-                          Verify Credential
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
-                    </div>
-                  ))}
+        {/* Carousel Slider */}
+        <div
+          ref={sliderRef}
+          className="flex gap-5 overflow-x-auto pb-5 pt-1 scroll-smooth scrollbar-none"
+        >
+          {certs.map((cert) => (
+            <div
+              key={cert.id}
+              className="w-[280px] sm:w-[320px] shrink-0 border-[3px] border-[#090909] bg-[#F5F3ED] p-4 shadow-[5px_5px_0px_#090909] flex flex-col justify-between"
+            >
+              <div>
+                {/* Certificate Preview Image */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden border-2 border-[#090909] bg-white shadow-[2px_2px_0px_#090909]">
+                  <Image
+                    src={cert.image || "/placeholder.svg"}
+                    alt={cert.title}
+                    fill
+                    sizes="320px"
+                    className="object-cover"
+                  />
+                  <div className="absolute top-2 right-2 border-2 border-[#090909] bg-[#FF789D] px-2 py-0.5 font-mono text-[10px] font-black uppercase shadow-[1px_1px_0px_#090909]">
+                    {cert.date}
+                  </div>
                 </div>
+
+                {/* Issuer & Title */}
+                <div className="mt-3 flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase text-[#555555]">
+                  <Building2 className="h-3 w-3" />
+                  <span>{cert.issuer}</span>
+                </div>
+
+                <h3 className="mt-1 font-sans font-black text-sm uppercase text-[#090909] line-clamp-1">
+                  {cert.title}
+                </h3>
+
+                <p className="mt-1.5 text-xs text-[#555555] font-medium leading-relaxed line-clamp-2">
+                  {cert.description}
+                </p>
               </div>
-            ))}
-          </div>
 
-          {/* Navigation Buttons */}
-          <button
-            onClick={() => {
-              handlePrev();
-              resetAutoPlay();
-            }}
-            className="absolute left-0 top-1/3 -translate-y-1/2 -translate-x-4 md:-translate-x-16 w-12 h-12 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-110 active:scale-95 shadow-lg z-10"
-            aria-label="Previous certification"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-          </button>
-          <button
-            onClick={() => {
-              handleNext();
-              resetAutoPlay();
-            }}
-            className="absolute right-0 top-1/3 -translate-y-1/2 translate-x-4 md:translate-x-16 w-12 h-12 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-110 active:scale-95 shadow-lg z-10"
-            aria-label="Next certification"
-          >
-            <ChevronRight className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-          </button>
-        </div>
-
-        {/* Dots Indicator */}
-        <div className="flex justify-center items-center gap-2 mt-16">
-          {Array.from({ length: slidesPerSet }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => goToSlide(idx)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                getDisplayIndex() === idx
-                  ? "bg-black dark:bg-white w-8"
-                  : "bg-gray-300 dark:bg-gray-700 w-1.5 hover:bg-gray-400 dark:hover:bg-gray-600 hover:w-4"
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
+              {/* Tags */}
+              <div className="mt-4 pt-3 border-t-2 border-[#090909] flex flex-wrap gap-1">
+                {cert.tags.slice(0, 3).map((tag) => (
+                  <span
+                    key={tag}
+                    className="border-2 border-[#090909] bg-white px-2 py-0.5 font-mono text-[10px] font-black uppercase shadow-[1px_1px_0px_#090909]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
+
       </div>
     </section>
   );

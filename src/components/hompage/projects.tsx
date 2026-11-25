@@ -1,11 +1,7 @@
-"use client"
+"use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Github, Globe } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { FolderGit2, Github, ArrowUpRight } from "lucide-react";
 
 type Project = {
   id: number;
@@ -20,169 +16,173 @@ const projects: Project[] = [
   {
     id: 1,
     title: "Stack Quiz",
-    description: "Real-time quiz application with WebSocket integration.",
+    description: "Real-time quiz application with WebSocket integration and live participant scoreboard.",
     image: "/00.png",
     tags: ["Next.js", "WebSockets", "Spring Boot"],
-    links: { github: "https://github.com/FSWD-GEN-01/stack-quiz-frontend", demo: "https://stackquiz-admin.vercel.app/login" },
+    links: {
+      github: "https://github.com/FSWD-GEN-01/stack-quiz-frontend",
+      demo: "https://stackquiz-admin.vercel.app/login",
+    },
   },
   {
     id: 2,
     title: "READata",
-    description: "Real-time data visualization dashboard for monitoring key metrics.",
+    description: "Real-time data visualization dashboard for monitoring key operational metrics.",
     image: "/ren.png",
-    tags: ["Tailwind CSS", "java", "javaScript"],
-    links: { demo: "https://reandata-g4vercelapp-eight.vercel.app/", github: "https://github.com/Panharoth06/Reandata-G4" },
+    tags: ["Tailwind CSS", "Java", "JavaScript"],
+    links: {
+      demo: "https://reandata-g4vercelapp-eight.vercel.app/",
+      github: "https://github.com/Panharoth06/Reandata-G4",
+    },
   },
   {
     id: 3,
     title: "Cambotrip",
-    description: "web design that offers travel packages and travel in Cambodia.",
+    description: "Web application offering curated travel packages, booking, and destinations across Cambodia.",
     image: "/c.png",
-    tags: ["Next.js", "Superbase", "TypeScript"],
-    links: { demo: "https://cambotrip-opal.vercel.app/", github: "https://github.com/Roeurmdara/Cambotrip?tab=readme-ov-file" },
+    tags: ["Next.js", "Supabase", "TypeScript"],
+    links: {
+      demo: "https://cambotrip-opal.vercel.app/",
+      github: "https://github.com/Roeurmdara/Cambotrip?tab=readme-ov-file",
+    },
   },
   {
     id: 4,
-    title: "Portfolio ",
-    description: "My personal portfolio website showcasing projects and skills.",
+    title: "Portfolio",
+    description: "Personal developer portfolio website showcasing projects, skills, and interactive UI engineering.",
     image: "/mee.png",
     tags: ["Next.js", "Tailwind CSS", "TypeScript"],
-    links: { demo: "https://me-n6g61kfss-roeurmdaras-projects.vercel.app/", github: "https://github.com/Roeurmdara/my" },
+    links: {
+      demo: "https://me-n6g61kfss-roeurmdaras-projects.vercel.app/",
+      github: "https://github.com/Roeurmdara/my",
+    },
   },
   {
     id: 5,
     title: "OOAD Project",
-  description: "LMS for school to manage assignments, grades for students and teachers.",
+    description: "School LMS platform to manage student assignments, academic grading, and teacher portal.",
     image: "/LMS.png",
     tags: ["Next.js", "Supabase", "TypeScript"],
-    links: { demo: "https://ooads.netlify.app/", github: "https://github.com/Devvfong/ooad" },
+    links: {
+      demo: "https://ooads.netlify.app/",
+      github: "https://github.com/Devvfong/ooad",
+    },
   },
   {
     id: 6,
     title: "Recipe App",
-    description: "Recipe application that user can explore various recipes and cooking ideas.",
+    description: "Recipe application allowing users to explore curated meal recipes and innovative cooking ideas.",
     image: "/m.png",
-    tags: ["java", "android studio", "Superbase"],
-    links: { demo: "#", github: "https://github.com/Roeurmdara/RecipeApp" },
+    tags: ["Java", "Android Studio", "Supabase"],
+    links: {
+      demo: "#",
+      github: "https://github.com/Roeurmdara/RecipeApp",
+    },
   },
-
-  // Add more projects as needed
 ];
 
-// --- TiltCard for hover effect ---
-function TiltCard({ children }: { children: React.ReactNode }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 200, damping: 20 });
-  const springY = useSpring(y, { stiffness: 200, damping: 20 });
-  const rotateX = useTransform(springY, [-50, 50], [8, -8]);
-  const rotateY = useTransform(springX, [-50, 50], [-8, 8]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const centerX = e.clientX - rect.left - rect.width / 2;
-    const centerY = e.clientY - rect.top - rect.height / 2;
-    x.set((centerX / (rect.width / 2)) * 50);
-    y.set((centerY / (rect.height / 2)) * 50);
-  };
-
-  return (
-    <motion.div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
-      }}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" as const }}
-      className="group h-full"
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// --- ProjectCard ---
-function ProjectCard({ p }: { p: Project }) {
-  return (
-    <TiltCard>
-      <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 200, damping: 20 }}>
-        <Card tabIndex={0} className="h-full border-muted-foreground/10 focus:outline-none focus:ring-2 focus:ring-primary">
-          <CardHeader>
-            <CardTitle className="flex items-start justify-between gap-2">
-              <span>{p.title}</span>
-              <span className="flex shrink-0 gap-1">
-                {p.links?.github && (
-                  <Button variant="ghost" size="icon" asChild className="hover:scale-105">
-                    <a href={p.links.github} target="_blank" rel="noreferrer" aria-label="GitHub">
-                      <Github className="h-4 w-4" />
-                    </a>
-                  </Button>
-                )}
-                {p.links?.demo && (
-                  <Button variant="ghost" size="icon" asChild className="hover:scale-105">
-                    <a href={p.links.demo} target="_blank" rel="noreferrer" aria-label="Live Demo">
-                      <Globe className="h-4 w-4" />
-                    </a>
-                  </Button>
-                )}
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-3">
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg border bg-muted">
-              <motion.div className="absolute inset-0" whileHover={{ scale: 1.04 }}>
-                <Image
-                  src={p.image || "/placeholder.svg"}
-                  alt={p.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover"
-                  loading="lazy"
-                />
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                />
-              </motion.div>
-            </div>
-            <p className="text-sm text-muted-foreground">{p.description}</p>
-            <div className="flex flex-wrap gap-2">
-              {p.tags.map((t, i) => (
-                <Badge key={`${p.id}-tag-${i}`} variant="secondary" className="border bg-background/60 backdrop-blur">
-                  {t}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </TiltCard>
-  );
-}
-
-// --- Projects Component ---
 export default function Projects() {
-  const container = { hidden: {}, show: { transition: { staggerChildren: 0.15 } } };
-  const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100 } } };
-
   return (
-    <section id="projects" className="relative scroll-mt-20 border-t border-b bg-white py-16">
-      <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <div className="mb-8 flex items-end justify-between gap-4">
-          <div>
-            <h2 className="text-3xl font-semibold">Featured Projects</h2>
-            <p className="mt-2 text-muted-foreground">A selection of work with a focus on UX, performance, and motion.</p>
+    <section id="projects" className="scroll-mt-24" aria-label="Projects">
+      <div className="border-[3px] border-[#090909] bg-white p-6 sm:p-8 md:p-12 shadow-[8px_8px_0px_#090909] relative neo-grid-pattern">
+        
+        {/* Section Header */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b-[3px] border-[#090909]">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 border-2 border-[#090909] bg-[#FF789D] px-3 py-1 font-mono text-xs font-black uppercase text-[#090909] shadow-[2px_2px_0px_#090909]">
+              <FolderGit2 className="h-3.5 w-3.5 text-[#090909]" />
+              {"//"} FEATURED WORK
+            </span>
           </div>
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#555555]">
+            {projects.length} SHIPPED BUILDS
+          </span>
         </div>
-        <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p) => (
-            <motion.div key={p.id} variants={item}>
-              <ProjectCard p={p} />
-            </motion.div>
+
+        <div className="mt-8 mb-8">
+          <h2 className="font-sans text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#090909]">
+            PROJECTS &amp; PRODUCTION PLATFORMS
+          </h2>
+          <p className="mt-2 text-sm text-[#555555] font-medium leading-relaxed max-w-2xl">
+            Selected applications showcasing fullstack architecture, responsive UI components, real-time communications, and database systems.
+          </p>
+        </div>
+
+        {/* Projects Grid */}
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, idx) => (
+            <div
+              key={project.id}
+              className="border-[3px] border-[#090909] bg-[#F5F3ED] p-4 sm:p-5 shadow-[6px_6px_0px_#090909] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[9px_9px_0px_#090909] transition-all flex flex-col justify-between"
+            >
+              <div>
+                {/* Image Container with Neo-Brutalist Border */}
+                <div className="relative aspect-video w-full overflow-hidden border-2 border-[#090909] bg-white shadow-[3px_3px_0px_#090909]">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute top-2 left-2 border-2 border-[#090909] bg-[#C5F451] px-2 py-0.5 font-mono text-[10px] font-black uppercase shadow-[1px_1px_0px_#090909]">
+                    PRJ-0{idx + 1}
+                  </div>
+                </div>
+
+                {/* Tags */}
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="border-2 border-[#090909] bg-white px-2 py-0.5 font-mono text-[10px] font-black uppercase text-[#090909] shadow-[2px_2px_0px_#090909]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Title & Description */}
+                <h3 className="mt-3 font-sans font-black text-lg sm:text-xl uppercase text-[#090909]">
+                  {project.title}
+                </h3>
+                <p className="mt-1.5 text-xs text-[#555555] font-medium leading-relaxed line-clamp-3">
+                  {project.description}
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="mt-6 pt-4 border-t-2 border-[#090909] flex items-center justify-between gap-2">
+                <div>
+                  {project.links?.github && (
+                    <a
+                      href={project.links.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 border-2 border-[#090909] bg-white px-3 py-1.5 font-mono text-xs font-bold uppercase text-[#090909] shadow-[2px_2px_0px_#090909] hover:bg-[#E6E6E6] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                    >
+                      <Github className="h-3.5 w-3.5" />
+                      <span>CODE</span>
+                    </a>
+                  )}
+                </div>
+
+                {project.links?.demo && project.links.demo !== "#" && (
+                  <a
+                    href={project.links.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 border-2 border-[#090909] bg-[#C5F451] px-3.5 py-1.5 font-mono text-xs font-black uppercase text-[#090909] shadow-[2px_2px_0px_#090909] hover:bg-[#FF789D] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#090909] transition-all"
+                  >
+                    <span>DEMO</span>
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                )}
+              </div>
+            </div>
           ))}
-        </motion.div>
+        </div>
+
       </div>
     </section>
   );
